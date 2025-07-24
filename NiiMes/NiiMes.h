@@ -3,7 +3,6 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_NiiMes.h"
 #include "Element.h"
-
 QT_BEGIN_NAMESPACE
 namespace Ui { class NiiMesClass; };
 QT_END_NAMESPACE

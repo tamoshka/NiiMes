@@ -28,6 +28,11 @@ Parameters::Parameters(int value, int power, int min, int max, int step, bool tu
 	}
 }
 
+Parameters::Parameters()
+{
+
+}
+
 void Parameters::SetValue(int value)
 {
 	try

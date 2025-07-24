@@ -16,6 +16,7 @@ private:
 	bool _tune;
 	bool _optimization;
 public:
+	Parameters();
 	Parameters(int, int, int, int, int, bool, bool);
 	int GetValue();
 	int GetPower();

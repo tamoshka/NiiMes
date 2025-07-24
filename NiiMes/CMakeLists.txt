@@ -16,16 +16,16 @@ find_package(Qt${QT_VERSION_MAJOR}
 qt_standard_project_setup()
 
 set(PROJECT_SOURCES
-    main.cpp
+    MinMaxException.h
+    ValueException.h
+    Parameters.h
+    Parameters.cpp
+    Element.h
+    Element.cpp
     NiiMes.ui
     NiiMes.h
     NiiMes.cpp
-    MinMaxException.h
-    ValueException.h
-    Element.h
-    Element.cpp
-    Parameters.h
-    Parameters.cpp
+    main.cpp
 )
 
 qt_add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
