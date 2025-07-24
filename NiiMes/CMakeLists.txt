@@ -20,6 +20,12 @@ set(PROJECT_SOURCES
     NiiMes.ui
     NiiMes.h
     NiiMes.cpp
+    MinMaxException.h
+    ValueException.h
+    Element.h
+    Element.cpp
+    Parameters.h
+    Parameters.cpp
 )
 
 qt_add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})

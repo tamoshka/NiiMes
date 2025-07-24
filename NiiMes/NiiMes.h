@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_NiiMes.h"
+#include "Element.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class NiiMesClass; };
@@ -17,5 +18,6 @@ public:
 
 private:
     Ui::NiiMesClass *ui;
+    QList<Element> _elements;
 };
 

@@ -1,4 +1,5 @@
 ﻿#include "NiiMes.h"
+#include "qcheckbox.h"
 NiiMes::NiiMes(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::NiiMesClass())
@@ -26,10 +27,10 @@ NiiMes::NiiMes(QWidget *parent)
     QTableWidgetItem* step = new QTableWidgetItem(QString::fromUtf8("Шаг"));
     step->setTextAlignment(Qt::AlignCenter);
     ui->ParametersTable->setItem(0, 6, step);
+    ui->ParametersTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 NiiMes::~NiiMes()
 {
     delete ui;
 }
-
