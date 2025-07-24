@@ -1,8 +1,22 @@
 #include "Element.h"
 
-Element::Element(map<mode, Parameters> element)
+Element::Element(map<mode, Parameters> element, int type, string name)
 {
-	this->SetElement(element);
+	try
+	{
+		this->SetElement(element);
+		this->SetType(type);
+		this->SetName(name);
+	}
+	catch (const exception& err)
+	{
+		throw err;
+	}
+}
+
+Element::Element()
+{
+
 }
 
 map<mode, Parameters> Element::GetElement()
@@ -27,4 +41,28 @@ void Element::SetParameters(mode mode, Parameters parameters)
 		this->_element.erase(mode);
 	}
 	this->_element[mode] = parameters;
+}
+
+int Element::GetType()
+{
+	return this->_type;
+}
+
+void Element::SetType(int type)
+{
+	if (type < 0 || type>1)
+	{
+		throw exception();
+	}
+	this->_type = type;
+}
+
+void Element::SetName(string name)
+{
+	this->_name = name;
+}
+
+string Element::GetName()
+{
+	return this->_name;
 }
