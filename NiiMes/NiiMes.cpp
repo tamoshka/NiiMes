@@ -36,18 +36,20 @@ NiiMes::~NiiMes()
 
 void NiiMes::AddValues()
 {
-    Parameters r1R = Parameters(50, 0, 10, 100, 10, false, false);
-    Parameters r1W = Parameters(20, 2, 10, 50, 5, true, false);
-    Parameters r1L = Parameters(200, 2, 100, 300, 10, true, false);
-    Parameters l1L = Parameters(1, 3, 1, 10, 1, false, false);
-    map<mode, Parameters> r1;
+    Parameters r1R = Parameters(50, 10, 100, 10, false, false);
+    Parameters r1W = Parameters(20, 10, 50, 5, true, false);
+    Parameters r1L = Parameters(200, 100, 300, 10, true, false);
+    Parameters l1L = Parameters(1, 1, 10, 1, false, false);
+    elementDictionary r1;
     r1[R] = r1R;
     r1[W] = r1W;
     r1[L] = r1L;
-    map<mode, Parameters> l1;
+    elementDictionary l1;
     l1[L] = l1L;
     R1 = Element(r1, 0, "R1");
     L1 = Element(l1, 1, "L1");
+    _elements.append(R1);
+    _elements.append(L1);
     ui->ParametersTable->insertRow(1);
     QTableWidgetItem* name = new QTableWidgetItem(QString::fromStdString(R1.GetName()) + "." + "R");
     ui->ParametersTable->setItem(1, 0, name);
@@ -123,6 +125,7 @@ void NiiMes::AddValues()
     connect(checkBoxFirst2, &QCheckBox::toggled, this, &NiiMes::SecondLine);
     connect(checkBoxFirst3, &QCheckBox::toggled, this, &NiiMes::ThirdLine);
     connect(checkBoxFirst4, &QCheckBox::toggled, this, &NiiMes::FourthLine);
+    connect(ui->ParametersTable, &QTableWidget::cellChanged, this, &NiiMes::OnChanged);
 }
 
 void NiiMes::FirstLine(bool checked)
@@ -218,5 +221,84 @@ void NiiMes::FourthLine(bool checked)
         ui->ParametersTable->item(4, 4)->setFlags(ui->ParametersTable->item(4, 4)->flags() & Qt::ItemIsEditable);
         ui->ParametersTable->item(4, 5)->setFlags(ui->ParametersTable->item(4, 5)->flags() & Qt::ItemIsEditable);
         ui->ParametersTable->item(4, 6)->setFlags(ui->ParametersTable->item(4, 6)->flags() & Qt::ItemIsEditable);
+    }
+}
+
+void NiiMes::OnChanged(int row, int col)
+{
+    if (!ui->ParametersTable->item(row, col)->isSelected())
+    {
+        string str = ui->ParametersTable->item(row, 0)->text().toUtf8().constData();
+        size_t pos = str.find('.');
+        string name = str.substr(0, pos);
+        string mode = str.substr(pos+1);
+        for (auto var : _elements)
+        {
+            if (var.GetName() == name)
+            {
+                string newstr = ui->ParametersTable->item(row, col)->text().toUtf8().constData();
+                size_t newpos = newstr.find(' ');
+                string strvalue = newstr.substr(0, newpos);
+                QString qstrvalue = QString::fromUtf8(strvalue);
+                int value = qstrvalue.toInt();
+                if (mode == "R")
+                {
+                    if (col == 1)
+                    {
+                        var.GetParameters(R).SetValue(value);
+                    }
+                    if (col == 4)
+                    {
+                        var.GetParameters(R).SetMin(value);
+                    }
+                    if (col == 5)
+                    {
+                        var.GetParameters(R).SetMax(value);
+                    }
+                    if (col == 6)
+                    {
+                        var.GetParameters(R).SetStep(value);
+                    }
+                }
+                else if (mode == "L")
+                {
+                    if (col == 1)
+                    {
+                        var.GetParameters(L).SetValue(value);
+                    }
+                    if (col == 4)
+                    {
+                        var.GetParameters(L).SetMin(value);
+                    }
+                    if (col == 5)
+                    {
+                        var.GetParameters(L).SetMax(value);
+                    }
+                    if (col == 6)
+                    {
+                        var.GetParameters(L).SetStep(value);
+                    }
+                }
+                else if (mode == "W")
+                {
+                    if (col == 1)
+                    {
+                        var.GetParameters(W).SetValue(value);
+                    }
+                    if (col == 4)
+                    {
+                        var.GetParameters(W).SetMin(value);
+                    }
+                    if (col == 5)
+                    {
+                        var.GetParameters(W).SetMax(value);
+                    }
+                    if (col == 6)
+                    {
+                        var.GetParameters(W).SetStep(value);
+                    }
+                }
+            }
+        }
     }
 }

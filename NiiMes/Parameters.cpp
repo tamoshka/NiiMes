@@ -1,6 +1,6 @@
 #include "Parameters.h"
 
-Parameters::Parameters(int value, int power, int min, int max, int step, bool tune, bool optimization)
+Parameters::Parameters(int value, int min, int max, int step, bool tune, bool optimization)
 {
 	try
 	{
@@ -9,7 +9,6 @@ Parameters::Parameters(int value, int power, int min, int max, int step, bool tu
 		this->_max = max;
 		this->Validate(value);
 		this->_value = value;
-		this->SetPower(power);
 		this->SetStep(step);
 		this->SetTune(tune);
 		this->SetOptimization(optimization);
@@ -88,15 +87,6 @@ void Parameters::SetMax(int max)
 	}
 }
 
-void Parameters::SetPower(int power)
-{
-	if (power < 0 || power>3)
-	{
-		throw exception();
-	}
-	this->_power = power;
-}
-
 void Parameters::SetStep(int step)
 {
 	if (step<0 || step>(this->_max - this->_min))
@@ -119,11 +109,6 @@ void Parameters::SetOptimization(bool optimization)
 int Parameters::GetValue()
 {
 	return this->_value;
-}
-
-int Parameters::GetPower()
-{
-	return this->_power;
 }
 
 int Parameters::GetMin()

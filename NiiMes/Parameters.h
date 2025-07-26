@@ -8,8 +8,6 @@ class Parameters
 {
 private:
 	int _value;
-	// 0 - обычное значение, 1 - мили, 2 - микро, 3 - нано
-	int _power;
 	int _min;
 	int _max;
 	int _step;
@@ -17,16 +15,14 @@ private:
 	bool _optimization;
 public:
 	Parameters();
-	Parameters(int, int, int, int, int, bool, bool);
+	Parameters(int, int, int, int, bool, bool);
 	int GetValue();
-	int GetPower();
 	int GetMin();
 	int GetMax();
 	int GetStep();
 	bool GetTune();
 	bool GetOptimization();
 	void SetValue(int);
-	void SetPower(int);
 	void SetMin(int);
 	void SetMax(int);
 	void SetStep(int);

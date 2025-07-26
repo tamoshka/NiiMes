@@ -10,18 +10,20 @@ enum mode
 	L
 };
 
+typedef map<mode, Parameters> elementDictionary;
+
 class Element
 {
 private:
-	map<mode, Parameters> _element;
+	elementDictionary _element;
 	//0 - резистор, 1 - катушка
 	int _type;
 	string _name;
 public:
-	Element(map<mode, Parameters>, int, string);
+	Element(elementDictionary, int, string);
 	Element();
-	map<mode, Parameters> GetElement();
-	void SetElement(map<mode, Parameters>);
+	elementDictionary GetElement();
+	void SetElement(elementDictionary);
 	void SetParameters(mode, Parameters);
 	Parameters GetParameters(mode);
 	int GetType();

@@ -1,6 +1,6 @@
 #include "Element.h"
 
-Element::Element(map<mode, Parameters> element, int type, string name)
+Element::Element(elementDictionary element, int type, string name)
 {
 	try
 	{
@@ -19,12 +19,12 @@ Element::Element()
 
 }
 
-map<mode, Parameters> Element::GetElement()
+elementDictionary Element::GetElement()
 {
 	return this->_element;
 }
 
-void Element::SetElement(map<mode, Parameters> element)
+void Element::SetElement(elementDictionary element)
 {
 	this->_element = element;
 }
