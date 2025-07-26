@@ -89,7 +89,7 @@ void Parameters::SetMax(int max)
 
 void Parameters::SetStep(int step)
 {
-	if (step<0 || step>(this->_max - this->_min))
+	if (step<=0 || step>(this->_max - this->_min))
 	{
 		throw exception();
 	}

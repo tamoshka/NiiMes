@@ -29,12 +29,12 @@ void Element::SetElement(elementDictionary element)
 	this->_element = element;
 }
 
-Parameters Element::GetParameters(mode mode)
+Parameters* Element::GetParameters(mode mode)
 {
 	return this->_element[mode];
 }
 
-void Element::SetParameters(mode mode, Parameters parameters)
+void Element::SetParameters(mode mode, Parameters* parameters)
 {
 	if (this->_element.count(mode) == 1)
 	{

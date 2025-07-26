@@ -20,7 +20,7 @@ public:
     void SecondLine(bool);
     void ThirdLine(bool);
     void FourthLine(bool);
-    void OnChanged(int, int);
+    void OnChanged(int, int, int, int);
 private:
     Ui::NiiMesClass *ui;
     QList<Element> _elements;

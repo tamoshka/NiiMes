@@ -10,7 +10,7 @@ enum mode
 	L
 };
 
-typedef map<mode, Parameters> elementDictionary;
+typedef map<mode, Parameters*> elementDictionary;
 
 class Element
 {
@@ -24,8 +24,8 @@ public:
 	Element();
 	elementDictionary GetElement();
 	void SetElement(elementDictionary);
-	void SetParameters(mode, Parameters);
-	Parameters GetParameters(mode);
+	void SetParameters(mode, Parameters*);
+	Parameters* GetParameters(mode);
 	int GetType();
 	void SetType(int);
 	string GetName();
