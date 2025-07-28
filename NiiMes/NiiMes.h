@@ -16,14 +16,12 @@ public:
     NiiMes(QWidget *parent = nullptr);
     ~NiiMes();
     void AddValues();
-    void FirstLine(bool);
-    void SecondLine(bool);
-    void ThirdLine(bool);
-    void FourthLine(bool);
+    void Line(bool);
     void OnChanged(int, int, int, int);
 private:
     Ui::NiiMesClass *ui;
     QList<Element> _elements;
+    QList <QCheckBox*> checkBoxes;
     QCheckBox* checkBoxFirst;
     QCheckBox* checkBoxFirst2;
     QCheckBox* checkBoxFirst3;

@@ -121,106 +121,74 @@ void NiiMes::AddValues()
     ui->ParametersTable->item(3, 4)->setFlags(ui->ParametersTable->item(3, 4)->flags() | Qt::ItemIsEnabled);
     ui->ParametersTable->item(3, 5)->setFlags(ui->ParametersTable->item(3, 5)->flags() | Qt::ItemIsEnabled);
     ui->ParametersTable->item(3, 6)->setFlags(ui->ParametersTable->item(3, 6)->flags() | Qt::ItemIsEnabled);
-    connect(checkBoxFirst, &QCheckBox::toggled, this, &NiiMes::FirstLine);
-    connect(checkBoxFirst2, &QCheckBox::toggled, this, &NiiMes::SecondLine);
-    connect(checkBoxFirst3, &QCheckBox::toggled, this, &NiiMes::ThirdLine);
-    connect(checkBoxFirst4, &QCheckBox::toggled, this, &NiiMes::FourthLine);
+    checkBoxes.append(checkBoxFirst);
+    checkBoxes.append(checkBoxFirst2);
+    checkBoxes.append(checkBoxFirst3);
+    checkBoxes.append(checkBoxFirst4);
+    connect(checkBoxFirst, &QCheckBox::toggled, this, &NiiMes::Line);
+    connect(checkBoxFirst2, &QCheckBox::toggled, this, &NiiMes::Line);
+    connect(checkBoxFirst3, &QCheckBox::toggled, this, &NiiMes::Line);
+    connect(checkBoxFirst4, &QCheckBox::toggled, this, &NiiMes::Line);
     connect(ui->ParametersTable, &QTableWidget::currentCellChanged, this, &NiiMes::OnChanged);
 }
 
-void NiiMes::FirstLine(bool checked)
+void NiiMes::Line(bool checked)
 {
+    int i = 0;
+    QCheckBox* checkBox = qobject_cast<QCheckBox*>(sender());
+    for (auto var : checkBoxes)
+    {
+        if (checkBoxes[i] == checkBox)
+        {
+            i += 1;
+            break;
+        }
+        i++;
+    }
+    Element element;
+    string str = ui->ParametersTable->item(i, 0)->text().toUtf8().constData();
+    size_t pos = str.find('.');
+    string name = str.substr(0, pos);
+    string mode1 = str.substr(pos + 1);
+    for (auto var : _elements)
+    {
+        if (var.GetName() == name)
+        {
+            element = var;
+        }
+    }
+    mode curMode;
+    if (mode1 == "R")
+    {
+        curMode = R;
+    }
+    else if (mode1 == "L")
+    {
+        curMode = L;
+    }
+    else if (mode1 == "W")
+    {
+        curMode = W;
+    }
     if (checked == true)
     {
-        ui->ParametersTable->item(1, 1)->setFlags(ui->ParametersTable->item(1, 1)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->item(1, 4)->setFlags(ui->ParametersTable->item(1, 4)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->item(1, 5)->setFlags(ui->ParametersTable->item(1, 5)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->item(1, 6)->setFlags(ui->ParametersTable->item(1, 6)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->setItem(1, 4, new QTableWidgetItem(QString::number(R1.GetParameters(R)->GetMin()) + " Ohm"));
-        ui->ParametersTable->setItem(1, 5, new QTableWidgetItem(QString::number(R1.GetParameters(R)->GetMax()) + " Ohm"));
-        ui->ParametersTable->setItem(1, 6, new QTableWidgetItem(QString::number(R1.GetParameters(R)->GetStep()) + " Ohm"));
+        ui->ParametersTable->item(i, 1)->setFlags(ui->ParametersTable->item(i, 1)->flags() | Qt::ItemIsEnabled);
+        ui->ParametersTable->item(i, 4)->setFlags(ui->ParametersTable->item(i, 4)->flags() | Qt::ItemIsEnabled);
+        ui->ParametersTable->item(i, 5)->setFlags(ui->ParametersTable->item(i, 5)->flags() | Qt::ItemIsEnabled);
+        ui->ParametersTable->item(i, 6)->setFlags(ui->ParametersTable->item(i, 6)->flags() | Qt::ItemIsEnabled);
+        ui->ParametersTable->setItem(i, 4, new QTableWidgetItem(QString::number(element.GetParameters(curMode)->GetMin()) + " um"));
+        ui->ParametersTable->setItem(i, 5, new QTableWidgetItem(QString::number(element.GetParameters(curMode)->GetMax()) + " um"));
+        ui->ParametersTable->setItem(i, 6, new QTableWidgetItem(QString::number(element.GetParameters(curMode)->GetStep()) + " um"));
     }
     else
     {
-        ui->ParametersTable->setItem(1, 4, new QTableWidgetItem());
-        ui->ParametersTable->setItem(1, 5, new QTableWidgetItem());
-        ui->ParametersTable->setItem(1, 6, new QTableWidgetItem());
-        ui->ParametersTable->item(1, 1)->setFlags(ui->ParametersTable->item(1, 1)->flags() & Qt::ItemIsEditable);
-        ui->ParametersTable->item(1, 4)->setFlags(ui->ParametersTable->item(1, 4)->flags() & Qt::ItemIsEditable);
-        ui->ParametersTable->item(1, 5)->setFlags(ui->ParametersTable->item(1, 5)->flags() & Qt::ItemIsEditable);
-        ui->ParametersTable->item(1, 6)->setFlags(ui->ParametersTable->item(1, 6)->flags() & Qt::ItemIsEditable);
-    }
-}
-
-void NiiMes::SecondLine(bool checked)
-{
-    if (checked == true)
-    {
-        ui->ParametersTable->item(2, 1)->setFlags(ui->ParametersTable->item(2, 1)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->item(2, 4)->setFlags(ui->ParametersTable->item(2, 4)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->item(2, 5)->setFlags(ui->ParametersTable->item(2, 5)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->item(2, 6)->setFlags(ui->ParametersTable->item(2, 6)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->setItem(2, 4, new QTableWidgetItem(QString::number(R1.GetParameters(W)->GetMin()) + " um"));
-        ui->ParametersTable->setItem(2, 5, new QTableWidgetItem(QString::number(R1.GetParameters(W)->GetMax()) + " um"));
-        ui->ParametersTable->setItem(2, 6, new QTableWidgetItem(QString::number(R1.GetParameters(W)->GetStep()) + " um"));
-    }
-    else
-    {
-        ui->ParametersTable->setItem(2, 4, new QTableWidgetItem());
-        ui->ParametersTable->setItem(2, 5, new QTableWidgetItem());
-        ui->ParametersTable->setItem(2, 6, new QTableWidgetItem());
-        ui->ParametersTable->item(2, 1)->setFlags(ui->ParametersTable->item(2, 1)->flags() & Qt::ItemIsEditable);
-        ui->ParametersTable->item(2, 4)->setFlags(ui->ParametersTable->item(2, 4)->flags() & Qt::ItemIsEditable);
-        ui->ParametersTable->item(2, 5)->setFlags(ui->ParametersTable->item(2, 5)->flags() & Qt::ItemIsEditable);
-        ui->ParametersTable->item(2, 6)->setFlags(ui->ParametersTable->item(2, 6)->flags() & Qt::ItemIsEditable);
-    }
-}
-
-void NiiMes::ThirdLine(bool checked)
-{
-    if (checked == true)
-    {
-        ui->ParametersTable->item(3, 1)->setFlags(ui->ParametersTable->item(3, 1)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->item(3, 4)->setFlags(ui->ParametersTable->item(3, 4)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->item(3, 5)->setFlags(ui->ParametersTable->item(3, 5)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->item(3, 6)->setFlags(ui->ParametersTable->item(3, 6)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->setItem(3, 4, new QTableWidgetItem(QString::number(R1.GetParameters(L)->GetMin()) + " um"));
-        ui->ParametersTable->setItem(3, 5, new QTableWidgetItem(QString::number(R1.GetParameters(L)->GetMax()) + " um"));
-        ui->ParametersTable->setItem(3, 6, new QTableWidgetItem(QString::number(R1.GetParameters(L)->GetStep()) + " um"));
-    }
-    else
-    {
-        ui->ParametersTable->setItem(3, 4, new QTableWidgetItem());
-        ui->ParametersTable->setItem(3, 5, new QTableWidgetItem());
-        ui->ParametersTable->setItem(3, 6, new QTableWidgetItem());
-        ui->ParametersTable->item(3, 1)->setFlags(ui->ParametersTable->item(3, 1)->flags() & Qt::ItemIsEditable);
-        ui->ParametersTable->item(3, 4)->setFlags(ui->ParametersTable->item(3, 4)->flags() & Qt::ItemIsEditable);
-        ui->ParametersTable->item(3, 5)->setFlags(ui->ParametersTable->item(3, 5)->flags() & Qt::ItemIsEditable);
-        ui->ParametersTable->item(3, 6)->setFlags(ui->ParametersTable->item(3, 6)->flags() & Qt::ItemIsEditable);
-    }
-}
-
-void NiiMes::FourthLine(bool checked)
-{
-    if (checked == true)
-    {
-        ui->ParametersTable->item(4, 1)->setFlags(ui->ParametersTable->item(4, 1)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->item(4, 4)->setFlags(ui->ParametersTable->item(4, 4)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->item(4, 5)->setFlags(ui->ParametersTable->item(4, 5)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->item(4, 6)->setFlags(ui->ParametersTable->item(4, 6)->flags() | Qt::ItemIsEnabled);
-        ui->ParametersTable->setItem(4, 4, new QTableWidgetItem(QString::number(L1.GetParameters(L)->GetMin()) + " nH"));
-        ui->ParametersTable->setItem(4, 5, new QTableWidgetItem(QString::number(L1.GetParameters(L)->GetMax()) + " nH"));
-        ui->ParametersTable->setItem(4, 6, new QTableWidgetItem(QString::number(L1.GetParameters(L)->GetStep()) + " nH"));
-    }
-    else
-    {
-        ui->ParametersTable->setItem(4, 4, new QTableWidgetItem());
-        ui->ParametersTable->setItem(4, 5, new QTableWidgetItem());
-        ui->ParametersTable->setItem(4, 6, new QTableWidgetItem());
-        ui->ParametersTable->item(4, 1)->setFlags(ui->ParametersTable->item(4, 1)->flags() & Qt::ItemIsEditable);
-        ui->ParametersTable->item(4, 4)->setFlags(ui->ParametersTable->item(4, 4)->flags() & Qt::ItemIsEditable);
-        ui->ParametersTable->item(4, 5)->setFlags(ui->ParametersTable->item(4, 5)->flags() & Qt::ItemIsEditable);
-        ui->ParametersTable->item(4, 6)->setFlags(ui->ParametersTable->item(4, 6)->flags() & Qt::ItemIsEditable);
+        ui->ParametersTable->setItem(i, 4, new QTableWidgetItem());
+        ui->ParametersTable->setItem(i, 5, new QTableWidgetItem());
+        ui->ParametersTable->setItem(i, 6, new QTableWidgetItem());
+        ui->ParametersTable->item(i, 1)->setFlags(ui->ParametersTable->item(i, 1)->flags() & Qt::ItemIsEditable);
+        ui->ParametersTable->item(i, 4)->setFlags(ui->ParametersTable->item(i, 4)->flags() & Qt::ItemIsEditable);
+        ui->ParametersTable->item(i, 5)->setFlags(ui->ParametersTable->item(i, 5)->flags() & Qt::ItemIsEditable);
+        ui->ParametersTable->item(i, 6)->setFlags(ui->ParametersTable->item(i, 6)->flags() & Qt::ItemIsEditable);
     }
 }
 
